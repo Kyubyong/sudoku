@@ -5,13 +5,17 @@ import numpy as np
 # set log level to debug
 tf.sg_verbosity(10)
 
-def load_data(is_train=True, num_mult=10):
+def load_data(is_train=True):
     Y = np.load('data/sudoku.npy') # solutions
     
-    Y = np.tile(Y, [num_mult, 1, 1]) # augmented *10
     X = np.zeros_like(Y, dtype=np.float32)
     for i, y in enumerate(Y): # game-wise
-        masks = np.random.randint(0, 2, (9, 9)) # 0 or 1.
+        nblanks = np.random.randint(1, 65) # We generate a problem which varies from 1 to 65 in number of blanks.
+        blank_indices = np.random.choice(81, nblanks)
+        masks= np.ones((9*9))
+        masks[blank_indices] = 0
+        masks = masks.reshape((9, 9))
+
         x = y * masks # puzzle. 0: blanks=targets.
         X[i] = x
     
@@ -84,9 +88,8 @@ class Graph(object):
 def main():
     g = Graph()
     
-    tf.sg_train(log_interval=10, lr_reset=True, 
-                loss=g.reduced_loss, eval_metric=[g.acc_train, g.acc_val], ep_size=g.num_batch, 
-                save_dir='asset/train', max_ep=100, early_stop=False)
+    tf.sg_train(log_interval=10, loss=g.reduced_loss, eval_metric=[g.acc_train, g.acc_val], 
+                ep_size=g.num_batch, save_dir='asset/train', max_ep=10, early_stop=False)
     
 if __name__ == "__main__":
     main(); print "Done"

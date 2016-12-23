@@ -1,0 +1,6 @@
+*.pyc
+asset/
+data/
+_*
+
+
