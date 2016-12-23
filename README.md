@@ -64,7 +64,7 @@ After 10 epochs, we got [this model file](https://drive.google.com/open?id=0B0ZX
 Total Accuracy| 692/1568=0.44|672/1568=0.43|
 
 ## Conclusions
-* I also tested fully connected layers, but it failed to learn.
+* I also tested fully connected layers, to no avail.
 * Up to some point, it seems that CNNs can learn to solve Sudoku.
 * For some problems, the second method was more effective than the first method. But I can't figure out more about that.
 * Probably reinforcement learning would be more appropriate for Sudoku solving.
