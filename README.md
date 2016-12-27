@@ -1,6 +1,6 @@
 # Can Convolutional Neural Networks Crack Sudoku Puzzles?
 
-Sudoku is a popular number puzzle that requires you to fill blanks in a 9X9 grid with digits so that each column, each row, and each of the nine 3×3 subgrids contains all of the digits from 1 to 9. There have been various approaches to that, including computational ones. In this pilot project, we show convolutional neural networks have the potential to crack Sukoku puzzles without any other rule-based post-processing.
+Sudoku is a popular number puzzle that requires you to fill blanks in a 9X9 grid with digits so that each column, each row, and each of the nine 3×3 subgrids contains all of the digits from 1 to 9. There have been various approaches to that, including computational ones. In this pilot project, we show that convolutional neural networks have the potential to crack Sukoku puzzles without any other rule-based post-processing.
 
 ## Requirements
   * numpy >= 1.11.1
@@ -20,7 +20,9 @@ Can Convolutional Neural Networks Crack Sudoku Puzzles?
 * STEP 3. Train the model, feeding X (quizzes) and Y (solutions). Note that only the predictions for the position of the blanks count when computing loss. (See `train.py`)<br/>
 
 ## Evaluation
-We test the performance of the final model against 30 real Sudoku puzzles and their solutions, which vary from the easy to evil level.
+We test the performance of the final model against 30 real Sudoku puzzles and their solutions, which vary from the easy to evil level. Metrics are the following two.
+* Accuracy: the number of blanks where our prediction matched to the solution.
+* Success rate: the number of games where 100% accurately matched to our prediction. 
 
 ## Results
 After 4 epochs, we got [the best model file](https://drive.google.com/open?id=0B0ZXk88koS2KV1VIT2RYUGhuOEU). We designed two test methods.
@@ -67,7 +69,7 @@ After 4 epochs, we got [the best model file](https://drive.google.com/open?id=0B
 ## Conclusions
 * I also tested fully connected layers, to no avail.
 * Up to some point, it seems that CNNs can learn to solve Sudoku.
-* For most problems, the second method was outperfrom the fist one.
+* For most problems, the second method was outperform the fist one.
 * Humans cannot predict all numbers simultaneously. Probably so do CNNs.
 
 ## Furthery Study
