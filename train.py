@@ -21,8 +21,8 @@ def load_data(is_train=True):
       Y: 3-D array of int. Has the shape of (# total games, 9, 9) (for train) 
         or (batch_size, 9, 9) (for validation)            
     '''
-    X = np.load('data/sudoku.npz')['quizzes'].astype(np.float32)
-    Y = np.load('data/sudoku.npz')['solutions']
+    X = np.load('data/sudoku_quizzes.npy').astype(np.float32)
+    Y = np.load('data/sudoku_solutions.npy')
     
     X = np.expand_dims(X, -1)
     
