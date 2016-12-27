@@ -14,7 +14,7 @@ Can Convolutional Neural Networks Crack Sudoku Puzzles?
 * To investigate this task comprehensively, read through [McGuire et al. 2013](https://arxiv.org/pdf/1201.0749.pdf).
 
 ## Training
-* STEP 1. Generate 1 million Sudoku games. (See `generate_sudoku.py`). The pre-generated games are available [here](https://www.kaggle.com/bryanpark/sudoku).
+* STEP 1. Generate 1 million Sudoku games. (See `generate_sudoku.py`). The pre-generated games are available [here](https://www.kaggle.com/bryanpark/sudoku/downloads/sudoku.zip).
 * STEP 2. Construct convolutional networks as follows. (See `Graph` in `train.py`)<br/>
 ![graph](graph.png?raw=true)
 * STEP 3. Train the model, feeding X (quizzes) and Y (solutions). Note that only the predictions for the position of the blanks count when computing loss. (See `train.py`)<br/>
@@ -76,7 +76,7 @@ After 4 epochs, we got [the best model file](https://drive.google.com/open?id=0B
 * Reinforcement learning would be more appropriate for Sudoku solving.
 
 ## Notes for reproducibility
-* Download pre-generated Sudoku games [here](https://www.kaggle.com/bryanpark/sudoku) and extract it to `data/` folder.
+* Download pre-generated Sudoku games [here](https://www.kaggle.com/bryanpark/sudoku/downloads/sudoku.zip) and extract it to `data/` folder.
 * Download the pre-trained model file [here](https://drive.google.com/open?id=0B0ZXk88koS2KV1VIT2RYUGhuOEU) and extract it to `asset/train/ckpt` folder.
 	
 
