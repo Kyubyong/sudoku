@@ -1,7 +1,8 @@
-
+#!/usr/bin/python2
 """
 This is adapted from https://www.ocf.berkeley.edu/~arel/sudoku/main.html.
-Kyubyong Park.
+Generates 1 million Sudoku games. 
+Kyubyong Park. kbpark.linguist@gmail.com www.github.com/kyubyong
 """
 
 import random, copy
@@ -139,16 +140,14 @@ def run(n = 28, iter=100):
 #     print "* creating the solution..."
     a_puzzle_solution = construct_puzzle_solution()
     
-    return a_puzzle_solution
-
 #     print "* constructing a puzzle..."
-#     for i in range(iter):
-#         puzzle = copy.deepcopy(a_puzzle_solution)
-#         (result, number_of_cells) = pluck(puzzle, n)
-#         all_results.setdefault(number_of_cells, []).append(result)
-#         if number_of_cells <= n: break
-# 
-#     return all_results
+    for i in range(iter):
+        puzzle = copy.deepcopy(a_puzzle_solution)
+        (result, number_of_cells) = pluck(puzzle, n)
+        all_results.setdefault(number_of_cells, []).append(result)
+        if number_of_cells <= n: break
+ 
+    return all_results, a_puzzle_solution
 
 def best(set_of_puzzles):
     # Could run some evaluation function here. For now just pick
@@ -170,13 +169,18 @@ def main(num):
     '''
     Generates `num` games of Sudoku.
     '''
-    Y = np.zeros((num, 9, 9), np.int32)
+    quizzes = np.zeros((num, 9, 9), np.int32)
+    solutions = np.zeros((num, 9, 9), np.int32)
     for i in range(num):
-        game = np.array(run())
-        Y[i] = game
+        all_results, solution = run(n=23, iter=10)
+        quiz = best(all_results)
+        
+        quizzes[i] = quiz
+        solutions[i] = solution
+
         if (i+1) % 1000 == 0:
             print i+1
-            np.save('data/sudoku.npy', Y)
+            np.save('data/sudoku.npz', quizzes=quizzes, solutions=solutions)
 
 if __name__ == "__main__":
     main(1000000)

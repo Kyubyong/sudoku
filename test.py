@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
+'''
+Test the performance of the model.
+'''
 import sugartensor as tf
 import numpy as np
 from train import Graph
+
+# Test sets
+# 6 * Easy + 6 * Medium + 6 * Hard + 6 * Expert + 6 * Evil 
+# From http://1sudoku.com/print/print-sudoku-free/
 
 problems = '''\
 080032001
@@ -605,13 +612,14 @@ solutions = '''\
 438269517
 619875423'''
 
-def data_process():
-    # Convert problem and solution sets to the proper format
+def preprocess():
+    '''Converts problem and solution sets to the proper format
+    '''
     global problems, solutions
     
     nproblems = len(problems.strip().split("\n\n"))
     X = np.zeros((nproblems, 9, 9), np.float32)  
-    Y = np.zeros((nproblems, 9, 9), np.float32)  
+    Y = np.zeros((nproblems, 9, 9), np.int32)  
     
     for i, prob in enumerate(problems.strip().split('\n\n')):
         for j, row in enumerate(prob.splitlines()):
@@ -631,7 +639,7 @@ def test1():
     '''
     Predicts all at once.
     '''
-    X, Y = data_process()
+    X, Y = preprocess()
     g = Graph(is_train=False)
         
     with tf.Session() as sess:
@@ -668,7 +676,7 @@ def test2():
     '''
     Predicts sequentially.
     '''
-    X, Y = data_process()
+    X, Y = preprocess()
     g = Graph(is_train=False)
          
     with tf.Session() as sess:
