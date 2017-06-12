@@ -1,732 +1,87 @@
 # -*- coding: utf-8 -*-
+#/usr/bin/python2
 '''
-Test the performance of the model.
+By kyubyong park. kbpark.linguist@gmail.com. 
+https://www.github.com/kyubyong/sudoku
 '''
-import sugartensor as tf
+from __future__ import print_function
+import tensorflow as tf
 import numpy as np
 from train import Graph
+from data_load import load_data
+from hyperparams import Hyperparams as hp
+import os
 
-# Test sets
-# 6 * Easy + 6 * Medium + 6 * Hard + 6 * Expert + 6 * Evil 
-# From http://1sudoku.com/print/print-sudoku-free/
-
-problems = '''\
-080032001
-703080002
-500007030
-050001970
-600709008
-047200050
-020600009
-800090305
-300820010
-
-000009007
-060000800
-789062350
-430600590
-090508020
-018004073
-043210786
-005000040
-100400000
-
-900401007
-047508000
-010700408
-002100003
-309000206
-400003700
-706009050
-000305690
-200604001
-
-100000203
-078026401
-340107000
-050002806
-080000010
-601700020
-000801042
-804530160
-506000009
-
-600200400
-015000020
-024100003
-102090305
-030501060
-507040208
-200009630
-050000870
-009008002
-
-021400080
-400150000
-605038400
-503607200
-000090000
-008504906
-006710509
-000043007
-040005120
-
-500901008
-008000500
-060040090
-600104007
-009000800
-700209003
-090010070
-007000600
-300708005
-
-400006080
-003040500
-000300000
-809401300
-100000007
-005709102
-000004000
-006030200
-030800001
-
-000050340
-003400009
-000700012
-900060005
-040000090
-700030004
-150007000
-200001800
-074020000
-
-000080100
-050039080
-109700300
-060000200
-720000016
-005000030
-002003804
-070910020
-003050000
-
-007008000
-030901620
-060000008
-140307060
-000090000
-070605091
-500000040
-013804050
-000500200
-
-010305600
-000200091
-070000200
-400010000
-007080300
-000060005
-001000030
-860007000
-003106080
-
-200100004
-000800500
-070050900
-690205000
-000070000
-000604015
-006080030
-004003000
-900002008
-
-471002008
-208001000
-000000002
-090018000
-004000500
-000320090
-700000000
-000600907
-300200465
-
-210500000
-570942000
-008000000
-400000280
-000605000
-063000001
-000000100
-000214097
-000006053
-
-004029000
-000006703
-000000050
-100700036
-900000008
-380004002
-050000000
-603200000
-000310200
-
-000050310
-400130600
-000008004
-065000003
-080000050
-300000970
-700800000
-006071009
-048060000
-
-000040003
-400008020
-030900500
-509000006
-004090700
-700000409
-003001060
-010500002
-600070000
-
-000300029
-008050006
-013000080
-800070000
-060090050
-000060001
-030000290
-900010600
-570002000
-
-000309800
-400010020
-560008001
-830000100
-000000000
-002000086
-600700039
-070050002
-001203000
-
-000609000
-209000000
-700010380
-000800041
-028090650
-670001000
-093020006
-000000405
-000905000
-
-080400300
-000009004
-053700090
-800000045
-001000900
-320000008
-070004610
-900300000
-002008070
-
-000004380
-800000002
-000895700
-000080073
-007000500
-410050000
-009513000
-300000007
-085600000
-
-060000050
-307000800
-800200007
-106008000
-004375100
-000400903
-600002009
-003000702
-090000030
-
-050400000
-070350014
-001890200
-018000000
-005186900
-000000580
-002075100
-560013090
-000008020
-
-090600000
-012080000
-087951000
-860190000
-030020080
-000038091
-000317560
-000060270
-000005010
-
-900006007
-006014000
-010900460
-060350002
-029000750
-800029040
-038007020
-000840300
-600100009
-
-000008015
-103000800
-509010004
-020509000
-300000009
-000601050
-400020508
-002000107
-930700000
-
-000910003
-803075200
-020000900
-070400102
-050000040
-204007030
-005000060
-006730501
-400068000
-
-397050000
-000001300
-006030905
-000006052
-060507030
-950300000
-705040600
-008200000
-000070423'''
-
-solutions = '''\
-489532761
-713486592
-562917834
-258341976
-631759248
-947268153
-125673489
-876194325
-394825617
-
-351849267
-264753819
-789162354
-432671598
-697538421
-518924673
-943215786
-875396142
-126487935
-
-928461537
-647538129
-513792468
-872156943
-359847216
-461923785
-736219854
-184375692
-295684371
-
-165498273
-978326451
-342157698
-457912836
-289643715
-631785924
-793861542
-824539167
-516274389
-
-673285491
-815934726
-924176583
-162897345
-438521967
-597643218
-281759634
-356412879
-749368152
-
-321479685
-489156372
-675238491
-593687214
-264391758
-718524936
-836712549
-152943867
-947865123
-
-574961238
-918327546
-263845791
-682134957
-439576812
-751289463
-895612374
-127453689
-346798125
-
-452916783
-683247519
-791358624
-879421356
-124563897
-365789142
-218674935
-946135278
-537892461
-
-617259348
-823416579
-495783612
-932164785
-546872193
-781935264
-158397426
-269541837
-374628951
-
-237485169
-456139782
-189726345
-361547298
-724398516
-895261437
-912673854
-578914623
-643852971
-
-927468135
-835971624
-461253978
-149387562
-356192487
-278645391
-592716843
-613824759
-784539216
-
-912345678
-346278591
-578691243
-435712869
-627589314
-189463725
-751824936
-864937152
-293156487
-
-259137684
-461829573
-378456921
-693215847
-145378296
-782694315
-526781439
-814963752
-937542168
-
-471932658
-268451379
-935876142
-693518724
-824769531
-157324896
-746195283
-582643917
-319287465
-
-214538769
-576942318
-938167425
-459371286
-721685934
-863429571
-697853142
-385214697
-142796853
-
-734529681
-519846723
-862173459
-145782936
-927631548
-386954172
-251468397
-673295814
-498317265
-
-879654312
-452139687
-613728594
-965487123
-187392456
-324516978
-791843265
-536271849
-248965731
-
-195247683
-476358921
-238916574
-589734216
-364192758
-721685439
-953421867
-817569342
-642873195
-
-657348129
-298157436
-413629587
-849571362
-361294758
-725863941
-134786295
-982415673
-576932814
-
-217369845
-489517623
-563428971
-835672194
-196834257
-742195386
-624781539
-378956412
-951243768
-
-381649572
-259783164
-746512389
-935876241
-128394657
-674251938
-593428716
-862137495
-417965823
-
-789415326
-216839754
-453726891
-897163245
-641582937
-325947168
-578294613
-964371582
-132658479
-
-971264385
-854731692
-263895741
-592186473
-637429518
-418357269
-749513826
-326948157
-185672934
-
-469783251
-327651894
-815294367
-136928475
-984375126
-752416983
-678132549
-543869712
-291547638
-
-253461879
-879352614
-641897253
-718539462
-425186937
-936724581
-382975146
-564213798
-197648325
-
-593672148
-612483957
-487951326
-865194732
-139726485
-724538691
-248317569
-351869274
-976245813
-
-943586217
-786214935
-215973468
-467351892
-329468751
-851729643
-538697124
-192845376
-674132589
-
-247368915
-163954872
-589217364
-624539781
-315872649
-798641253
-476123598
-852496137
-931785426
-
-547912683
-893675214
-621843975
-379486152
-158329746
-264157839
-735291468
-986734521
-412568397
-
-397654281
-542981376
-186732945
-873496152
-264517839
-951328764
-725143698
-438269517
-619875423'''
-
-def preprocess():
-    '''Converts problem and solution sets to the proper format
+def write_to_file(x, y, preds, fout):
+    '''Writes to file.
+    Args:
+      x: A 3d array with shape of [N, 9, 9]. Quizzes where blanks are represented as 0's.
+      y: A 3d array with shape of [N, 9, 9]. Solutions.
+      preds: A 3d array with shape of [N, 9, 9]. Predictions.
+      fout: A string. File path of the output file where the results will be written.
     '''
-    global problems, solutions
+    with open(fout, 'w') as fout:
+        total_hits, total_blanks = 0, 0
+        for xx, yy, pp in zip(x.reshape(-1, 9*9), y.reshape(-1, 9*9), preds.reshape(-1, 9*9)): # sample-wise
+            fout.write("qz: {}\n".format("".join(str(num) if num != 0 else "_" for num in xx)))
+            fout.write("sn: {}\n".format("".join(str(num) for num in yy)))
+            fout.write("pd: {}\n".format("".join(str(num) for num in pp)))
+
+            expected = yy[xx == 0]
+            got = pp[xx == 0]
+
+            num_hits = np.equal(expected, got).sum()
+            num_blanks = len(expected)
+
+            fout.write("accuracy = %d/%d = %.2f\n\n" % (num_hits, num_blanks, float(num_hits) / num_blanks))
+
+            total_hits += num_hits
+            total_blanks += num_blanks
+        fout.write("Total accuracy = %d/%d = %.2f\n\n" % (total_hits, total_blanks, float(total_hits) / total_blanks))
+
+
+def test():
+    x, y = load_data(type="test")
     
-    nproblems = len(problems.strip().split("\n\n"))
-    X = np.zeros((nproblems, 9, 9), np.float32)  
-    Y = np.zeros((nproblems, 9, 9), np.int32)  
-    
-    for i, prob in enumerate(problems.strip().split('\n\n')):
-        for j, row in enumerate(prob.splitlines()):
-            for k, num in enumerate(row.strip()):
-                X[i, j, k] = num
+    g = Graph(is_training=False)
+    with g.graph.as_default():    
+        sv = tf.train.Supervisor()
+        with sv.managed_session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
+            # Restore parameters
+            sv.saver.restore(sess, tf.train.latest_checkpoint(hp.logdir))
+            print("Restored!")
+            
+            # Get model name
+            mname = open(hp.logdir + '/checkpoint', 'r').read().split('"')[1] # model name
+            
+	    if not os.path.exists('results'): os.mkdir('results')
+            fout = 'results/{}.txt'.format(mname)
+            import copy
+            _preds = copy.copy(x)
+            while 1:
+                istarget, probs, preds = sess.run([g.istarget, g.probs, g.preds], {g.x:_preds, g.y: y})
+                probs = probs.astype(np.float32)
+                preds = preds.astype(np.float32)
+                
+                probs *= istarget #(N, 9, 9)
+                preds *= istarget #(N, 9, 9)
 
-    for i, sol in enumerate(solutions.strip().split('\n\n')):
-        for j, row in enumerate(sol.splitlines()):
-            for k, num in enumerate(row.strip()):
-                Y[i, j, k] = num
-                            
-    X = np.expand_dims(X, -1)
-    
-    return X, Y
-    
-def test1():
-    '''
-    Predicts all at once.
-    '''
-    X, Y = preprocess()
-    g = Graph(is_train=False)
-        
-    with tf.Session() as sess:
-        tf.sg_init(sess)
-     
-        # restore parameters
-        saver = tf.train.Saver()
-        saver.restore(sess, tf.train.latest_checkpoint('asset/train/ckpt'))
-        
-        total_blanks, total_hits = 0, 0 
-        for x_3d, y_2d in zip(X, Y): # problem-wise x: (9, 9, 1), y: (9, 9)
-            x_2d = np.squeeze(x_3d, -1) #(9, 9)
-            x_4d = np.expand_dims(x_3d, 0) # (1, 9, 9, 1)
-            while 1:   
-                logits = sess.run(g.logits, {g.X: x_4d}) # (1, 9, 9, 10) float32
-                preds = np.squeeze(np.argmax(logits, axis=-1), 0) # (9, 9) # most probable numbers
+                probs = np.reshape(probs, (-1, 9*9)) #(N, 9*9)
+                preds = np.reshape(preds, (-1, 9*9))#(N, 9*9)
                 
-                expected = y_2d[x_2d == 0]
-                got = preds[x_2d == 0]
-                hits = np.equal(expected, got).sum()
-                
-                result = np.where(x_2d == 0, preds, y_2d).astype(int)
-                
-                print result
-                print "Acc.=%d/%d=%.2f" % (hits, len(expected), float(hits)/len(expected))
-                     
-                total_blanks += len(expected)
-                total_hits += hits
-                break
-                 
-        print "Total Accuracy = %d/%d=%.2f" % (total_hits, total_blanks, float(total_hits)/total_blanks)
+                _preds = np.reshape(_preds, (-1, 9*9))
+                maxprob_ids = np.argmax(probs, axis=1) # (N, ) <- blanks of the most probable prediction
+                maxprobs = np.max(probs, axis=1, keepdims=False)
+                for j, (maxprob_id, maxprob) in enumerate(zip(maxprob_ids, maxprobs)):
+                    if maxprob != 0:
+                        _preds[j, maxprob_id] = preds[j, maxprob_id]
+                _preds = np.reshape(_preds, (-1, 9, 9))
+                _preds = np.where(x==0, _preds, y) # # Fill in the non-blanks with correct numbers
 
-def test2():
-    '''
-    Predicts sequentially.
-    '''
-    X, Y = preprocess()
-    g = Graph(is_train=False)
-         
-    with tf.Session() as sess:
-        tf.sg_init(sess)
-      
-        saver = tf.train.Saver()
-        saver.restore(sess, tf.train.latest_checkpoint('asset/train/ckpt'))
-         
-        total_blanks, total_hits = 0, 0 
-        for x_3d, y_2d in zip(X, Y): # problem-wise x: (9, 9, 1), y: (9, 9)
-            x_2d = np.squeeze(x_3d, -1) #(9, 9)
-            x_4d = np.expand_dims(x_3d, 0) # (1, 9, 9, 1)
-            _x_2d = np.copy(x_2d) # (9, 9) 
-            while 1:   
-                logits = sess.run(g.logits, {g.X: x_4d}) # (1, 9, 9, 10) float32
+                if np.count_nonzero(_preds) == _preds.size: break
 
-                def softmax(x):
-                    """Compute softmax values for each sets of scores in x."""
-                    e_x = np.exp(x - np.max(x, -1, keepdims=True))
-                    return e_x / e_x.sum(axis=-1, keepdims=True) 
-                
-                activated = softmax(logits) # (1, 9, 9, 10) float32
-                preds = np.squeeze(np.argmax(activated, axis=-1), 0) # (9, 9) # most probable numbers
-                preds_prob = np.squeeze(np.max(activated, axis=-1), 0) # (9, 9) # highest probabilities for blanks
-                preds_prob = np.where(x_2d == 0, preds_prob, 0) # (9, 9)
-
-                top1 = np.argmax(preds_prob) # the index of the most confident number amongst all predictions
-                ind = np.unravel_index(top1, (9,9)) 
-                got = preds[ind] # the most confident number
-                x_2d[ind] = got # result
-                
-                x_4d = np.expand_dims(np.expand_dims(x_2d, 0), -1)
- 
-                if len(x_2d[x_2d == 0]) == 0:
-                    expected = y_2d[_x_2d == 0]
-                    got = x_2d[_x_2d == 0]
-                    hits = np.equal(expected, got).sum()
-                    
-                    result = np.where(_x_2d == 0, x_2d, y_2d).astype(int)
-                    
-                    print result
-                    print "Acc.=%d/%d=%.2f" % (hits, len(expected), float(hits)/len(expected))
-                     
-                    total_blanks += len(expected)
-                    total_hits += hits
-                    break
-                 
-        print "Total Accuracy = %d/%d=%.2f" % (total_hits, total_blanks, float(total_hits)/total_blanks)
+            write_to_file(x.astype(np.int32), y, _preds.astype(np.int32), fout)
                     
 if __name__ == '__main__':
-    test1()
-#     test2()
-    print "Done"
+    test()
+    print("Done")
