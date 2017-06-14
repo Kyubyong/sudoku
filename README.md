@@ -19,7 +19,7 @@ Sudoku is a popular number puzzle that requires you to fill blanks in a 9X9 grid
 
 ## File description
   * `generate_sudoku.py` create sudoku games. You don't have to run this. Instead, download [pre-generated games](https://www.kaggle.com/bryanpark/sudoku/downloads/sudoku.zip).
-  * `hyperparams.py` includes all ajustable hyper parameters.
+  * `hyperparams.py` includes all adjustable hyper parameters.
   * `data_load.py` loads data and put them in queues so multiple mini-bach data are generated in parallel.
   * `modules.py` contains some wrapper functions.
   * `train.py` is for training.
@@ -41,10 +41,10 @@ Number of blanks where the prediction matched the solution / Number of blanks.
 
 ## Results
 
-Ater a couple of hours of training, the training curve seems to reach the optimum. 
+After a couple of hours of training, the training curve seems to reach the optimum. 
 
 <img src="fig/training_curve.png">
-I use a simple trick in inference. Instead of cracking the whole blanks all at once, I fill in a single blank where the prediction is the most probable among the all predictions. As can be seen below, my model scored 0.86 in accuracy. Details are avaiable in the `results` folder.
+I use a simple trick in inference. Instead of cracking the whole blanks all at once, I fill in a single blank where the prediction is the most probable among the all predictions. As can be seen below, my model scored 0.86 in accuracy. Details are available in the `results` folder.
 
 
  
