@@ -54,7 +54,7 @@ def test():
             # Get model name
             mname = open(hp.logdir + '/checkpoint', 'r').read().split('"')[1] # model name
             
-	    if not os.path.exists('results'): os.mkdir('results')
+            if not os.path.exists('results'): os.mkdir('results')
             fout = 'results/{}.txt'.format(mname)
             import copy
             _preds = copy.copy(x)
