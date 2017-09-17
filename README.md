@@ -28,7 +28,7 @@ Sudoku is a popular number puzzle that requires you to fill blanks in a 9X9 grid
 
 ## Training
 * STEP 1. Download and extract [training data](https://www.kaggle.com/bryanpark/sudoku/downloads/sudoku.zip).
-* STEP 2. Run `python train.py`. Or download the [pretrained file](https://u42868014.dl.dropboxusercontent.com/u/42868014/sudoku/logdir.tar.gz).
+* STEP 2. Run `python train.py`. Or download the [pretrained file](https://www.dropbox.com/s/ipnwnorc7nz5hpe/logdir.tar.gz?dl=0).
 
 ## Test
 * Run `python test.py`.
