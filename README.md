@@ -83,7 +83,10 @@ I use a simple trick in inference. Instead of cracking the whole blanks all at o
 |Total Accuracy| 1345/1568 = _0.86_|
 
 
+## Papers that referenced this repository
 
+  * [OptNet: Differentiable Optimization as a Layer in Neural Networks](http://proceedings.mlr.press/v70/amos17a/amos17a.pdf)
+  * [Recurrent Relational Networks for Complex Relational Reasoning](https://arxiv.org/abs/1711.08028)
 
 
 
