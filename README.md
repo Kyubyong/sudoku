@@ -82,6 +82,18 @@ I use a simple trick in inference. Instead of cracking the whole blanks all at o
 |Evil|**51/51 = 1.00**|
 |Total Accuracy| 1345/1568 = _0.86_|
 
+## References
+
+If you use this code for research, please cite:
+
+@misc{sudoku2018,
+  author = {Park, Kyubyong},
+  title = {Can Convolutional Neural Networks Crack Sudoku Puzzles?},
+  year = {2018},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/Kyubyong/sudoku}}
+}
 
 ## Papers that referenced this repository
 
