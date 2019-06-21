@@ -86,6 +86,7 @@ I use a simple trick in inference. Instead of cracking the whole blanks all at o
 
 If you use this code for research, please cite:
 
+```
 @misc{sudoku2018,
   author = {Park, Kyubyong},
   title = {Can Convolutional Neural Networks Crack Sudoku Puzzles?},
@@ -94,6 +95,7 @@ If you use this code for research, please cite:
   journal = {GitHub repository},
   howpublished = {\url{https://github.com/Kyubyong/sudoku}}
 }
+```
 
 ## Papers that referenced this repository
 
