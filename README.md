@@ -101,6 +101,5 @@ If you use this code for research, please cite:
 
   * [OptNet: Differentiable Optimization as a Layer in Neural Networks](http://proceedings.mlr.press/v70/amos17a/amos17a.pdf)
   * [Recurrent Relational Networks for Complex Relational Reasoning](https://arxiv.org/abs/1711.08028)
-
-
+  * [SATNet: Bridging deep learning and logical reasoning using a differentiable satisfiability solver](https://arxiv.org/abs/1905.12149)
 
