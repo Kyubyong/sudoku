@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #/usr/bin/python2
-# ignore this line changes
+# ignore this line changes made by me
 '''
 By kyubyong park. kbpark.linguist@gmail.com. 
 https://www.github.com/kyubyong/sudoku
